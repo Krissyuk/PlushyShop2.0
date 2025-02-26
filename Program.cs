@@ -23,11 +23,21 @@ app.MapGet("orders", (int param = 0) =>
 app.MapGet("create", ([AsParameters] Order dto) =>
     repo.Add(dto));
 
-app.MapGet("update", ([AsParameters] UpdateOrderDTO dto) =>
-{
+app.MapGet("update", ([AsParameters] UpdateOrderDTO dto) => 
+{ 
     var o = repo.Find(x => x.Number == dto.Number);
     if (o == null)
         return;
+    if (dto.Status != o.Status && dto.Status != "")
+        {
+        o.Status = dto.Status;
+        message += $"Статус заявки №{o.Number} изменен\n";
+        if (o.Status == "завершена")
+        {
+            message += $"Заявка №{o.Number} завершена\n";
+            o.EndDate = DateOnly.FromDateTime(DateTime.Now);
+        }
+        }
     if (dto.Problemtype != "")
         o.Problemtype = dto.Problemtype;
     if (dto.Master != "")
