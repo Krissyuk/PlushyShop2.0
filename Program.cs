@@ -48,19 +48,26 @@ app.MapGet("update", ([AsParameters] UpdateOrderDTO dto) =>
 
 app.Run();
 
-class Order(int number, DateOnly startDate, string device, string model, string problemtype, string fullnameclient, string phone, string status)
+class Product(string name, string creator, string creatorId, string category, string info, string town, double price, double deliveryPrice)
 {
-    public int Number { get; set; } = number;
-    public DateOnly StartDate { get; set; } = startDate;
-    public string Device { get; set; } = device;
-    public string Model { get; set; } = model;
-    public string Problemtype { get; set; } = problemtype;
-    public string Fullnameclient { get; set; } = fullnameclient;
-    public string Phone { get; set; } = phone;
-    public string Status { get; set; } = status;
-    public string? Master { get; set; } = "Не назначено";
-    public DateOnly? EndDate { get; set; } = null;
-    public List<string> Comment { get; set; } = [];
+    public string Name { get; set; } = name;
+    public string Creator { get; set; } = creator;
+    public string CreatorId { get; set; } = creatorId;
+    public string Category { get; set; } = category;
+    public string Info { get; set; } = info;
+    public string Town { get; set; } = town;
+    public double Price { get; set; } = price;
+    public double DeliveryPrice { get; set; } = deliveryPrice;
 }
 
-record class UpdateOrderDTO(int Number, string? Status = "", string? Problemtype = "", string? Master = "", string? Comment = "");
+class User(int id, string nickName, string login, string password, string gender)
+{
+    public int Id { get; set; } = id;
+    public string NickName { get; set; } = nickName;
+    public string Login { get; set; } = login;
+    public string Password { get; set; } = password;
+    public string Gender { get; set; } = gender;
+}
+
+record class UpdateUserDTO(int id, string nickName, string login, string password, string gender);
+record class UpdateProductDTO(string name, string category, string info, string town, double price, double deliveryPrice);
