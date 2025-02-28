@@ -5,7 +5,11 @@
     <title>Заявки</title>
 </head>
 <body>
-    <a href = "AddOrders.html">Добавить новую заявку</a>
+    <div>
+        <a href = "AddOrders.html">Добавить новую заявку</a>
+        <a href = "GetOrders.html">Получить заявки</a>
+        <a href = "UpdateOrders.html">Редактировать заявку</a>
+    </div>
     <table>
         <tr>
             <th>Номер заявки</th>
@@ -46,6 +50,8 @@
 
                 table.append(tr)
             });
+            if(orders.message)
+                alert(orders.message)
         }
         function CreateTd(data)
         {

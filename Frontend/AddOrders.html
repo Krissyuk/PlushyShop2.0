@@ -4,26 +4,27 @@
     <title>Создание заявки</title>
 </head>
 <body>
-    <a href = "GetOrders.html">Получить заявки</a>
+    <div>
+        <a href = "AddOrders.html">Добавить новую заявку</a>
+        <a href = "GetOrders.html">Получить заявки</a>
+        <a href = "UpdateOrders.html">Редактировать заявку</a>
+    </div>
     <iframe name ="frame" style="display: none;"></iframe>
     <form target="frame" action="http://localhost:5230/create" method="get">
 
-        <input required placeholder = "Номер" type="number" name="number"/><br/>
-        <label for = "startDate">Дата начала</label><br/>
-        <input required type="date" name="startDate"/><br/>
-        <input required placeholder = "Оборудование" type="text" name="device"/><br/>
-        <input required placeholder = "Модель" type="text" name="model"/><br/>
-        <input required placeholder = "Тип проблемы" type="text" name="problemtype"/><br/>
-        <input required placeholder = "Клиент" type="text" name="fullnameclient"/><br/>
-        <input required placeholder = "Телефон" type="tel" name="phone"/><br/>
-        <label for = "status">Статус</label><br/>
-        <select name = "status">
+        <tr><input id="number" placeholder="Номер заявки"/></tr>
+        <tr><input id="startDate" type="date"></tr>
+        <tr><input id="number" placeholder="Номер заявки"/></tr>
+        <tr><input id="number" placeholder="Номер заявки"/></tr>
+        <tr><input id="number" placeholder="Номер заявки"/></tr>
+        <tr><input id="number" placeholder="Номер заявки"/></tr>
+        <tr><input id="number" placeholder="Номер заявки"/></tr>
+        <tr><select id = "status">
             <option>завершена</option>
             <option>в процессе ремонта</option>
             <option>ожидание комплектующих</option>
-        </select><br/>
-        <input type="submit" value="Создание"/>
+        </tr></select>
+        <input type="submit" value="Создание" type="button"/>
         </form>
-
 </body>
 </html>
