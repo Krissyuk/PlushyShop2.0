@@ -1,7 +1,5 @@
-List<Order> repo =
-[
-    new(1,new(2005,3,11),"1","1","1","1", "79826996614","Выполнено"),
-];
+List<Product> repo =
+[];
 
 var builder = WebApplication.CreateBuilder();
 builder.Services.AddCors();
@@ -11,45 +9,60 @@ app.UseCors(a => a.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 string message = "";
 
-app.MapGet("orders", (int param = 0) =>
+app.MapGet("home", (int param = 0) =>
 {
     string buffer = message;
     message = "";
     if (param != 0)
-        return new { repo = repo.FindAll(x => x.Number == param), message = buffer };
+        return new { repo = repo.FindAll(x => x.Id == param), message = buffer };
     return new { repo, message = buffer };
 });
 
-app.MapGet("create", ([AsParameters] Order dto) =>
+app.MapGet("create", ([AsParameters] Product dto) =>
     repo.Add(dto));
 
-app.MapGet("update", ([AsParameters] UpdateOrderDTO dto) => 
+app.MapGet("update", ([AsParameters] UpdateProductDTO dto) => 
 { 
-    var o = repo.Find(x => x.Number == dto.Number);
+    var o = repo.Find(x => x.Id == dto.Id);
     if (o == null)
         return;
-    if (dto.Status != o.Status && dto.Status != "")
+    if (dto.Name != o.Name)
         {
-        o.Status = dto.Status;
-        message += $"Статус заявки №{o.Number} изменен\n";
-        if (o.Status == "завершена")
+        o.Name = dto.Name;
+        message += $"Продукт №{o.Id} изменен\n";
+        }
+    if (dto.Category != o.Category)
         {
-            message += $"Заявка №{o.Number} завершена\n";
-            o.EndDate = DateOnly.FromDateTime(DateTime.Now);
+        o.Category = dto.Category;
+        message += $"Продукт №{o.Id} изменен\n";
         }
+    if (dto.Info != o.Info)
+        {
+        o.Info = dto.Info;
+        message += $"Продукт №{o.Id} изменен\n";
         }
-    if (dto.Problemtype != "")
-        o.Problemtype = dto.Problemtype;
-    if (dto.Master != "")
-        o.Master = dto.Master;
-    if (dto.Comment != "")
-        o.Comment.Add(dto.Comment);
+    if (dto.Town != o.Town)
+        {
+        o.Town = dto.Town;
+        message += $"Продукт №{o.Id} изменен\n";
+        }
+    if (dto.Price != o.Price)
+        {
+        o.Price = dto.Price;
+        message += $"Продукт №{o.Id} изменен\n";
+        }
+    if (dto.DeliveryPrice != o.DeliveryPrice)
+        {
+        o.DeliveryPrice = dto.DeliveryPrice;
+        message += $"Продукт №{o.Id} изменен\n";
+        }
 });
 
 app.Run();
 
-class Product(string name, string creator, string creatorId, string category, string info, string town, double price, double deliveryPrice)
+class Product(int id, string name, string creator, string creatorId, string category, string info, string town, double price, double deliveryPrice)
 {
+    public int Id { get; set; } = id;
     public string Name { get; set; } = name;
     public string Creator { get; set; } = creator;
     public string CreatorId { get; set; } = creatorId;
@@ -69,5 +82,5 @@ class User(int id, string nickName, string login, string password, string gender
     public string Gender { get; set; } = gender;
 }
 
-record class UpdateUserDTO(int id, string nickName, string login, string password, string gender);
-record class UpdateProductDTO(string name, string category, string info, string town, double price, double deliveryPrice);
+record class UpdateUserDTO(int Id, string NickName, string Login, string Password, string Gender);
+record class UpdateProductDTO(int Id, string Name, string Category, string Info, string Town, double Price, double DeliveryPrice);
