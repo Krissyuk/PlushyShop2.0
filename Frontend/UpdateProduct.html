@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактировать продукт</title>
+</head>
+<body>
+    <div>
+        <a href = "AddProduct.html">Добавить новый товар</a>
+        <a href = "GetProduct.html">Главная</a>
+        <a href = "UpdateProduct.html">Редактировать товар</a>
+    </div>
+    <table>
+        <tr>
+            <tr><input id="name" placeholder="Наименование изделия"></tr>
+            <tr><select id = "category" placeholder="Категория изделия">
+                <option>Вязание</option>
+                <option>Гончарное дело</option>
+                <option>Мыловарение</option>
+                <option>Рисование</option>
+                <option>Ювелирные изделия</option>
+                <option>Керамика</option>
+                <option>Вышивка</option>
+                <option>Бисероплетение</option>
+                <option>Изделие из полимерной глины</option>
+            </tr></select>
+            <tr><input id="info" placeholder="Информация об изделии"/></tr>
+            <tr><input id="price" placeholder="Цена изделия"/></tr>
+            <tr>
+            <input id="save" value="Сохранить" type="button"/>
+            </tr>
+    </table>
+    <script>
+        document.getElementById("save").onclick = async()=>{
+            let number = document.getElementById("id").value;
+            let order = {
+                problemtype : document.getElementById("name").value,
+                status : document.getElementById("category").value,
+                master : document.getElementById("info").value,
+                comment : document.getElementById("price").value
+            };
+
+            fetch(`http://localhost:5230/${id}`,{
+                method: "PUT",
+                headers:{"Content-Type":"application/json"},
+                body: JSON.stringify(order)
+            });
+        }
+    </script>
+</body>
+</html>

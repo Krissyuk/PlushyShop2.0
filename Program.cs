@@ -51,16 +51,11 @@ app.MapGet("update", ([AsParameters] UpdateProductDTO dto) =>
         o.Price = dto.Price;
         message += $"Продукт №{o.Id} изменен\n";
         }
-    if (dto.DeliveryPrice != o.DeliveryPrice)
-        {
-        o.DeliveryPrice = dto.DeliveryPrice;
-        message += $"Продукт №{o.Id} изменен\n";
-        }
 });
 
 app.Run();
 
-class Product(int id, string name, string creator, string creatorId, string category, string info, string town, double price, double deliveryPrice)
+class Product(int id, string name, string creator, string creatorId, string category, string info, string town, double price)
 {
     public int Id { get; set; } = id;
     public string Name { get; set; } = name;
@@ -70,7 +65,6 @@ class Product(int id, string name, string creator, string creatorId, string cate
     public string Info { get; set; } = info;
     public string Town { get; set; } = town;
     public double Price { get; set; } = price;
-    public double DeliveryPrice { get; set; } = deliveryPrice;
 }
 
 class User(int id, string nickName, string login, string password, string gender)
