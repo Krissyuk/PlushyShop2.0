@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавьте свой продукт!</title>
 </head>
 <body>
     <div>
         <a href = "AddProduct.html">Добавить новый товар</a>
-        <a href = "GetProduct.html">Главная</a>
+        <a href = "GetProduct.html">Товары</a>
         <a href = "UpdateProduct.html">Редактировать товар</a>
     </div>
     <iframe name ="frame" style="display: none;"></iframe>
     <form target="frame" action="http://localhost:5230/create" method="get">
 
-        <tr><input id="name" placeholder="Наименование изделия"></tr>
-        <tr><select id = "category" placeholder="Категория изделия">
+        <input required placeholder = "Номер товара" type="number" name="id"/>
+        <input required placeholder = "Наименование товара" type="text" name="name"/>
+        <input required placeholder = "Создатель" type="text" name="creator"/>
+        <input required placeholder = "id Создателя" type="text" name="creatorId"/>
+        <label for = "category">Категория</label>
+        <select name = "category">
             <option>Вязание</option>
             <option>Гончарное дело</option>
             <option>Мыловарение</option>
@@ -25,10 +27,11 @@
             <option>Вышивка</option>
             <option>Бисероплетение</option>
             <option>Изделие из полимерной глины</option>
-        </tr></select>
-        <tr><input id="info" placeholder="Информация об изделии"/></tr>
-        <tr><input id="price" placeholder="Цена изделия"/></tr>
-        <input type="submit" value="Добавить" type="button"/>
-        </form>
+        </select>
+        <input required placeholder = "Информация об изделии" type="text" name="info"/>
+        <input required placeholder = "Цена" type="number" name="price"/>
+        <input type="submit" value="Добавить"/>
+    </form>
+
 </body>
 </html>

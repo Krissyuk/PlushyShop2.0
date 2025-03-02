@@ -8,7 +8,7 @@
 <body>
     <div>
         <a href = "AddProduct.html">Добавить новый товар</a>
-        <a href = "GetProduct.html">Главная</a>
+        <a href = "GetProduct.html">Товары</a>
         <a href = "UpdateProduct.html">Редактировать товар</a>
     </div>
     <script>
@@ -17,31 +17,31 @@
 
         async function GetProguct()
         {
-            let response = await fetch("http://localhost:5230/home",{method:"GET"});
-            let orders = await response.json();
+            let response = await fetch("http://localhost:5230/products",{method:"GET"});
+            let products = await response.json();
 
-            orders.repo.forEach (o => {
+            products.repo.forEach (o => {
                 let tr = document.createElement("tr");
 
+                tr.append(CreateTd(o.id));
                 tr.append(CreateTd(o.name));
-                tr.append(CreateTd(o.creator)); 
-                tr.append(CreateTd(o.category)); 
+                tr.append(CreateTd(o.creator));
+                tr.append(CreateTd(o.creatorId));
+                tr.append(CreateTd(o.category));
                 tr.append(CreateTd(o.info)); 
-                tr.append(CreateTd(o.town)); 
                 tr.append(CreateTd(o.price)); 
                 table.append(tr)
             });
-            if(orders.message)
-                alert(orders.message)
-        }
+            if(products.message)
+                alert(products.message)
+        };
         function CreateTd(data)
         {
             let td = document.createElement("td");
             td.append(data);
             return td;
-        }
+        };
 
     </script>
-
 </body>
 </html>

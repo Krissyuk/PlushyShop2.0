@@ -1,5 +1,7 @@
 List<Product> repo =
-[];
+[
+    new(0,"Кукла","Криссюк",0,"Вязание","Обычная кукла",100),
+];
 
 var builder = WebApplication.CreateBuilder();
 builder.Services.AddCors();
@@ -9,7 +11,7 @@ app.UseCors(a => a.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 string message = "";
 
-app.MapGet("home", (int param = 0) =>
+app.MapGet("products", (int param = 0) =>
 {
     string buffer = message;
     message = "";
@@ -41,11 +43,6 @@ app.MapGet("update", ([AsParameters] UpdateProductDTO dto) =>
         o.Info = dto.Info;
         message += $"Продукт №{o.Id} изменен\n";
         }
-    if (dto.Town != o.Town)
-        {
-        o.Town = dto.Town;
-        message += $"Продукт №{o.Id} изменен\n";
-        }
     if (dto.Price != o.Price)
         {
         o.Price = dto.Price;
@@ -55,15 +52,14 @@ app.MapGet("update", ([AsParameters] UpdateProductDTO dto) =>
 
 app.Run();
 
-class Product(int id, string name, string creator, string creatorId, string category, string info, string town, double price)
+class Product(int id, string name, string creator, int creatorId, string category, string info, double price)
 {
     public int Id { get; set; } = id;
     public string Name { get; set; } = name;
     public string Creator { get; set; } = creator;
-    public string CreatorId { get; set; } = creatorId;
+    public int CreatorId { get; set; } = creatorId;
     public string Category { get; set; } = category;
     public string Info { get; set; } = info;
-    public string Town { get; set; } = town;
     public double Price { get; set; } = price;
 }
 
@@ -77,4 +73,4 @@ class User(int id, string nickName, string login, string password, string gender
 }
 
 record class UpdateUserDTO(int Id, string NickName, string Login, string Password, string Gender);
-record class UpdateProductDTO(int Id, string Name, string Category, string Info, string Town, double Price, double DeliveryPrice);
+record class UpdateProductDTO(int Id, string Name, string Category, string Info, double Price, double DeliveryPrice);

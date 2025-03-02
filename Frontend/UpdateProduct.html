@@ -34,7 +34,7 @@
     <script>
         document.getElementById("save").onclick = async()=>{
             let number = document.getElementById("id").value;
-            let order = {
+            let product = {
                 problemtype : document.getElementById("name").value,
                 status : document.getElementById("category").value,
                 master : document.getElementById("info").value,
@@ -44,7 +44,7 @@
             fetch(`http://localhost:5230/${id}`,{
                 method: "PUT",
                 headers:{"Content-Type":"application/json"},
-                body: JSON.stringify(order)
+                body: JSON.stringify(product)
             });
         }
     </script>
