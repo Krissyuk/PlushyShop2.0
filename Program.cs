@@ -72,5 +72,5 @@ class User(int id, string nickName, string login, string password, string gender
     public string Gender { get; set; } = gender;
 }
 
-record class UpdateUserDTO(int Id, string NickName, string Login, string Password, string Gender);
-record class UpdateProductDTO(int Id, string Name, string Category, string Info, double Price, double DeliveryPrice);
+record class UpdateUserDTO(int Id, string NickName="", string Login="", string Password="", string Gender="Не определено");
+record class UpdateProductDTO(int Id, string Name="", string Category ="", string Info="", int Price = 0);

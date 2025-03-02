@@ -6,42 +6,53 @@
     <title>Главная</title>
 </head>
 <body>
+    <a href = "AddProduct.html">Добавить новый товар</a>
+    <a href = "GetProduct.html">Товары</a>
+    <a href = "UpdateProduct.html">Редактировать товар</a>
     <div>
-        <a href = "AddProduct.html">Добавить новый товар</a>
-        <a href = "GetProduct.html">Товары</a>
-        <a href = "UpdateProduct.html">Редактировать товар</a>
+        <input id="search" placeholder="Номер"/>
+        <button onclick="GetFilter()">Найти</button>
     </div>
+
     <script>
-        let table = document.querySelector("table");
-        GetProguct();
+        let tbody = document.querySelector("tbody");
+        GetProgucts();
 
-        async function GetProguct()
-        {
-            let response = await fetch("http://localhost:5230/products",{method:"GET"});
-            let products = await response.json();
+        async function GetProgucts(param=null) {
 
-            products.repo.forEach (o => {
+            let uri = param ?
+            `http://localhost:5230/products?param${param}`:
+            "http://localhost:5230/products";
+
+            let response = await fetch(uri).then(data=>data.json())
+
+            if(response.message)
+                alert(response.message);
+
+            response.repo.forEach (o => {
                 let tr = document.createElement("tr");
 
-                tr.append(CreateTd(o.id));
-                tr.append(CreateTd(o.name));
-                tr.append(CreateTd(o.creator));
-                tr.append(CreateTd(o.creatorId));
-                tr.append(CreateTd(o.category));
-                tr.append(CreateTd(o.info)); 
-                tr.append(CreateTd(o.price)); 
-                table.append(tr)
-            });
-            if(products.message)
-                alert(products.message)
-        };
-        function CreateTd(data)
-        {
-            let td = document.createElement("td");
-            td.append(data);
-            return td;
-        };
+                tr.innerHTML = `
+                <td>${o.id}</td>
+                <td>${o.name}</td>
+                <td>${o.creator}</td>
+                <td>${o.creatorId}</td>
+                <td>${o.category}</td>
+                <td>${o.info}</td>
+                <td>${o.price}</td>`;
 
+                tbody.append(tr);
+            });
+        }
+
+        function GetFilter(){
+            tbody.innerHTML=""
+            let param = document.getElementById("search").value;
+            GetProgucts(param)
+        }
     </script>
+    <style>
+        th,td{border: 1px solid black;}
+    </style>
 </body>
 </html>
