@@ -10,7 +10,16 @@
         <a href = "GetProduct.html">Главная</a>
         <a href = "UpdateProduct.html">Редактировать товар</a>
     </div>
-
+    <table>
+        <tr>
+            <th>id</th>
+            <th>Наименование</th>
+            <th>Создатель</th>
+            <th>Категория</th>
+            <th>Информация</th>
+            <th>Цена</th>
+        </tr>
+    </table>
     <script>
         let table = document.querySelector("table");
         GetProducts();
@@ -23,6 +32,7 @@
             products.repo.forEach (p => {
                 let tr = document.createElement("tr");
 
+                tr.append(CreateTd(p.id));
                 tr.append(CreateTd(p.name));
                 tr.append(CreateTd(p.creator)); 
                 tr.append(CreateTd(p.category)); 
