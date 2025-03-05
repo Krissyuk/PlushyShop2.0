@@ -1,6 +1,20 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+
+var adminRole = new Role("admin");
+var creatorRole  = new Role("creator");
+var userRole  = new Role("user");
+
 List<Product> repo =
 [
     new(0,"Кукла","Криссюк",0,"Вязание","Обычная кукла",100),
+];
+
+List<User> repousers =
+[
+    new(0,"Krissyuk","Krissyuk","123","женский",adminRole),
 ];
 
 var builder = WebApplication.CreateBuilder();
@@ -25,28 +39,28 @@ app.MapGet("create", ([AsParameters] Product dto) =>
 
 app.MapGet("update", ([AsParameters] UpdateProductDTO dto) => 
 { 
-    var o = repo.Find(x => x.Id == dto.Id);
-    if (o == null)
+    var p = repo.Find(x => x.Id == dto.Id);
+    if (p == null)
         return;
-    if (dto.Name != o.Name)
+    if (dto.Name != p.Name)
         {
-        o.Name = dto.Name;
-        message += $"Продукт №{o.Id} изменен\n";
+        p.Name = dto.Name;
+        message += $"Продукт №{p.Id} изменен\n";
         }
-    if (dto.Category != o.Category)
+    if (dto.Category != p.Category)
         {
-        o.Category = dto.Category;
-        message += $"Продукт №{o.Id} изменен\n";
+        p.Category = dto.Category;
+        message += $"Продукт №{p.Id} изменен\n";
         }
-    if (dto.Info != o.Info)
+    if (dto.Info != p.Info)
         {
-        o.Info = dto.Info;
-        message += $"Продукт №{o.Id} изменен\n";
+        p.Info = dto.Info;
+        message += $"Продукт №{p.Id} изменен\n";
         }
-    if (dto.Price != o.Price)
+    if (dto.Price != p.Price)
         {
-        o.Price = dto.Price;
-        message += $"Продукт №{o.Id} изменен\n";
+        p.Price = dto.Price;
+        message += $"Продукт №{p.Id} изменен\n";
         }
 });
 
@@ -63,13 +77,19 @@ class Product(int id, string name, string creator, int creatorId, string categor
     public double Price { get; set; } = price;
 }
 
-class User(int id, string nickName, string login, string password, string gender)
+class User(int id, string nickName, string login, string password, string gender, Role role)
 {
     public int Id { get; set; } = id;
-    public string NickName { get; set; } = nickName;
+    public string NickName { get; set; } =nickName;
     public string Login { get; set; } = login;
-    public string Password { get; set; } = password;
-    public string Gender { get; set; } = gender;
+    public string Password { get; set; }=password;
+    public string Gender { get; set; }=gender;
+    public Role Role { get; set; }=role;
+}
+class Role
+{
+    public string Name { get; set; }
+    public Role(string name) => Name = name;
 }
 
 record class UpdateUserDTO(int Id, string NickName="", string Login="", string Password="", string Gender="Не определено");
