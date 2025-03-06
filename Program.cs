@@ -46,8 +46,7 @@ app.MapGet("/login", async (HttpContext context) =>
     string loginForm = @"<!DOCTYPE html>
     <html>
     <head>
-        <meta charset='utf-8' />
-        <title>METANIT.COM</title>
+        <title>Войти</title>
     </head>
     <body>
         <h2>Login Form</h2>
@@ -67,19 +66,16 @@ app.MapGet("/login", async (HttpContext context) =>
     await context.Response.WriteAsync(loginForm);
 });
 
-app.MapPost("/login", async (string? returnUrl, HttpContext context) =>
+app.MapPost("/login", async (HttpContext context) =>
 {
-    // получаем из формы email и пароль
     var form = context.Request.Form;
-    // если email и/или пароль не установлены, посылаем статусный код ошибки 400
+
     if (!form.ContainsKey("email") || !form.ContainsKey("password"))
         return Results.BadRequest("Email и/или пароль не установлены");
     string email = form["email"];
     string password = form["password"];
 
-    // находим пользователя 
     User? user = repousers.FirstOrDefault(p => p.Email == email && p.Password == password);
-    // если пользователь не найден, отправляем статусный код 401
     if (user is null) return Results.Unauthorized();
     var claims = new List<Claim>
     {
@@ -89,18 +85,11 @@ app.MapPost("/login", async (string? returnUrl, HttpContext context) =>
     var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
     await context.SignInAsync(claimsPrincipal);
-    return Results.Redirect(returnUrl ?? "/");
+    return Results.Redirect("/");
 });
 // доступ только для роли admin
 app.Map("/admin", [Authorize(Roles = "admin")] () => "Admin Panel");
 
-// доступ только для ролей admin и user
-app.Map("/", [Authorize(Roles = "admin, user")] (HttpContext context) =>
-{
-    var login = context.User.FindFirst(ClaimsIdentity.DefaultNameClaimType);
-    var role = context.User.FindFirst(ClaimsIdentity.DefaultRoleClaimType);
-    return $"Name: {login?.Value}\nRole: {role?.Value}";
-});
 app.MapGet("/logout", async (HttpContext context) =>
 {
     await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -109,7 +98,7 @@ app.MapGet("/logout", async (HttpContext context) =>
 
 string message = "";
 
-app.MapGet("products", (int param = 0) =>
+app.MapGet("/", (int param = 0) =>
 {
     string buffer = message;
     message = "";

@@ -32,6 +32,9 @@
         <input placeholder = "Цена" type="number" name="price"/>
         <input type="submit" value="Обновить"/>
     </form>
-
+    <script>
+        if(sessionStorage.setItem("token"))
+            window.location.href = "Login.html";
+    </script>
 </body>
 </html>

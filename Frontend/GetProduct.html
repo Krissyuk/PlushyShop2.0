@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Главная</title>
@@ -21,12 +21,15 @@
         </tr>
     </table>
     <script>
+        if(sessionStorage.setItem("token"))
+        window.location.href = "Login.html";
+    
         let table = document.querySelector("table");
         GetProducts();
 
         async function GetProducts()
         {
-            let response = await fetch("http://localhost:5230/products",{method:"GET"});
+            let response = await fetch("http://localhost:5230/",{method:"GET"});
             let products = await response.json();
 
             products.repo.forEach (p => {

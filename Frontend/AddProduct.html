@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <title>Добавьте свой продукт!</title>
 </head>
@@ -33,5 +33,9 @@
         <input type="submit" value="Добавить"/>
     </form>
 
+    <script>
+            if(sessionStorage.setItem("token"))
+                window.location.href = "Login.html";
+    </script>
 </body>
 </html>
